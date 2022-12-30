@@ -2,7 +2,7 @@ import { Component, ElementRef, Inject } from '@angular/core';
 import { ComponentContainer } from 'golden-layout';
 import { BaseComponentDirective } from '../../../../layouts/golden-layout/base-component.directive';
 import {Employee} from "../../../../shared/models/employee";
-import {EmployeesService} from "../../../../shared/services/employee.service";
+import {EmployeeDataService} from "../../../../shared/services/employee.service";
 
 @Component({
   selector: 'app-tree-list-component',
@@ -27,13 +27,14 @@ export class TreeListComponent extends BaseComponentDirective {
   employees: Employee[] = [];
 
 
-  constructor(@Inject(BaseComponentDirective.GoldenLayoutContainerInjectionToken) private container: ComponentContainer, elRef: ElementRef, employeeService: EmployeesService) {
+  constructor(@Inject(BaseComponentDirective.GoldenLayoutContainerInjectionToken) private container: ComponentContainer, elRef: ElementRef, employeeService: EmployeeDataService) {
     super(elRef.nativeElement);
 
     this.title = this.container.title;
     this.id = this.container.parent.id;
-    this.employees = employeeService.getEmployees();
-
+    employeeService.getAll().subscribe(data => {
+      this.employees = data;
+    });
   }
 
 }

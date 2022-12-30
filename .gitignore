@@ -9,3 +9,4 @@ package-lock.json
 logs/
 public/images/*
 .prettierrc
+.angular/

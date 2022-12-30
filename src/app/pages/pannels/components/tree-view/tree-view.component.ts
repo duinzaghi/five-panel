@@ -2,7 +2,8 @@ import { Component, ElementRef, Inject } from '@angular/core';
 import { ComponentContainer } from 'golden-layout';
 import { BaseComponentDirective } from '../../../../layouts/golden-layout/base-component.directive';
 import {Product} from "../../../../shared/models/product";
-import {PanelService} from "../../../../shared/services/panel.service";
+import {ProductDataService} from "../../../../shared/services/product.service";
+
 
 @Component({
   selector: 'app-tree-view-component',
@@ -28,12 +29,15 @@ export class TreeViewComponent extends BaseComponentDirective {
   //For tree control
   public products: Product[] = [];
 
-  constructor(@Inject(BaseComponentDirective.GoldenLayoutContainerInjectionToken) private container: ComponentContainer, elRef: ElementRef, panelService: PanelService) {
+  constructor(@Inject(BaseComponentDirective.GoldenLayoutContainerInjectionToken) private container: ComponentContainer, elRef: ElementRef, productService: ProductDataService) {
     super(elRef.nativeElement);
 
     this.title = this.container.title;
     this.id = this.container.parent.id;
-    this.products = panelService.getProducts();
+    productService.getProducts().subscribe(data => {
+      this.products = data;
+    });
+
 
   }
 

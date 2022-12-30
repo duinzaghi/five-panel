@@ -21,13 +21,13 @@ export class CreateAccountFormComponent {
 
   async onSubmit(e: Event) {
     e.preventDefault();
-    const { email, password } = this.formData;
     this.loading = true;
 
-    const result = await this.authService.createAccount(email, password);
+    const result = await this.authService.createAccount(this.formData);
     this.loading = false;
 
     if (result.isOk) {
+      notify("Register success. Please login!", 'success', 2000);
       this.router.navigate(['/login-form']);
     } else {
       notify(result.message, 'error', 2000);

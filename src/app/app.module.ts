@@ -6,11 +6,14 @@ import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangeP
 import { AuthService, ScreenService, AppInfoService } from './shared/services';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
+import {HttpClientModule} from "@angular/common/http";
+import {httpInterceptorProviders} from "./shared/interceptors/index.interceptor";
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     SideNavOuterToolbarModule,
     SideNavInnerToolbarModule,
@@ -25,6 +28,7 @@ import { AppRoutingModule } from './app-routing.module';
 
   ],
   providers: [
+    httpInterceptorProviders,
     AuthService,
     ScreenService,
     AppInfoService,

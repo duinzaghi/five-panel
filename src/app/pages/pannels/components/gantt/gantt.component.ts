@@ -6,6 +6,10 @@ import {Dependency} from "../../../../shared/models/dependency";
 import {Resource} from "../../../../shared/models/resource";
 import {ResourceAssignment} from "../../../../shared/models/resourceAssignment";
 import { PanelService } from '../../../../shared/services/panel.service';
+import {TaskDataService} from "../../../../shared/services/task.service";
+import {DependencyDataService} from "../../../../shared/services/dependency.service";
+import {ResourceAssignmentDataService} from "../../../../shared/services/resourceAssignment.service";
+import {ResourceDataService} from "../../../../shared/services/resource.service";
 
 @Component({
   selector: 'app-gantt-component',
@@ -33,17 +37,33 @@ export class GanttComponent extends BaseComponentDirective {
   resources: Resource[];
   resourceAssignments: ResourceAssignment[];
 
-  constructor(@Inject(BaseComponentDirective.GoldenLayoutContainerInjectionToken) private container: ComponentContainer, elRef: ElementRef, panelService: PanelService) {
+  constructor(
+      @Inject(BaseComponentDirective.GoldenLayoutContainerInjectionToken)
+      private container: ComponentContainer,
+      elRef: ElementRef,
+      panelService: PanelService,
+      taskService: TaskDataService,
+      dependencyService: DependencyDataService,
+      resourceService: ResourceDataService,
+      resourceAssignmentService: ResourceAssignmentDataService,
+  ) {
     super(elRef.nativeElement);
 
     this.title = this.container.title;
     this.id = this.container.parent.id;
     //For gantt
-    this.tasks = panelService.getTasks();
-    this.dependencies = panelService.getDependencies();
-    this.resources = panelService.getResources();
-    this.resourceAssignments = panelService.getResourceAssignments();
-
+    taskService.getAll().subscribe(data => {
+      this.tasks = data;
+    });
+    dependencyService.getAll().subscribe(data => {
+      this.dependencies = data;
+    });
+    resourceService.getAll().subscribe(data => {
+      this.resources = data;
+    });
+    resourceAssignmentService.getAll().subscribe(data => {
+      this.resourceAssignments = data;
+    });
   }
 
 }

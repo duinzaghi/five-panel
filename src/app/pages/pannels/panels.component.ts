@@ -2,8 +2,6 @@ import {Component, ViewChild} from '@angular/core';
 import 'devextreme/data/odata/store';
 import { PanelService } from '../../shared/services/panel.service';
 import {Panel} from "../../shared/models/panel";
-import {Employee} from "../../shared/models/employee";
-import {EmployeesService} from "../../shared/services/employee.service";
 import {GoldenControlsComponent} from "../../layouts/golden-layout/controls.component";
 import {GoldenLayoutHostComponent} from "../../layouts/golden-layout/golden-layout-host.component";
 
@@ -15,7 +13,7 @@ import {GoldenLayoutHostComponent} from "../../layouts/golden-layout/golden-layo
 export class PanelsComponent {
   panels: Panel[] = [];
 
-  constructor(panelService: PanelService, employeeService: EmployeesService) {
+  constructor(panelService: PanelService) {
     this.panels = panelService.getPanels();
   }
 
